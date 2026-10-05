@@ -1218,7 +1218,7 @@ class CarPlayHostActivity : ComponentActivity() {
                 )
             }
         }.apply {
-            setBackgroundColor(Color.rgb(12, 17, 27))
+            setBackgroundColor(Color.BLACK)
             isClickable = true
         }
         val panel = LinearLayout(this).apply {
@@ -1231,8 +1231,9 @@ class CarPlayHostActivity : ComponentActivity() {
         }
         panel.addView(icon, LinearLayout.LayoutParams(dp(88), dp(88)))
         val title = TextView(this).apply {
-            text = getString(R.string.diplay)
-            setTextColor(Color.rgb(241, 245, 252))
+            text = getString(R.string.diplay).uppercase()
+            letterSpacing = .32f
+            setTextColor(Color.WHITE)
             gravity = Gravity.CENTER
             typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
         }
@@ -1276,11 +1277,12 @@ class CarPlayHostActivity : ComponentActivity() {
         panel.addView(retry, LinearLayout.LayoutParams(dp(300), dp(64)).apply { bottomMargin = dp(12) })
         val back = Button(this).apply {
             text = getString(R.string.back_to_diplay)
-            isAllCaps = false
-            setTextColor(Color.rgb(12, 17, 27))
+            isAllCaps = true
+            setTextColor(Color.BLACK)
+            letterSpacing = .14f
             background = GradientDrawable().apply {
-                setColor(Color.rgb(166, 200, 255))
-                cornerRadius = dp(20).toFloat()
+                setColor(Color.WHITE)
+                cornerRadius = 0f
             }
             setOnClickListener { showDiPlayHome() }
         }

@@ -307,8 +307,9 @@ class DiPlayActivity : ComponentActivity() {
             LinearLayout.LayoutParams(if (compact) dp(24) else dp(36), if (compact) dp(24) else dp(36)),
         )
         header.addView(
-            label(getString(R.string.diplay), if (compact) 18 else 26, TEXT, true).apply {
-                setPadding(if (compact) dp(8) else dp(12), 0, 0, 0)
+            label(getString(R.string.diplay).uppercase(), if (compact) 16 else 20, TEXT, true).apply {
+                letterSpacing = .32f
+                setPadding(if (compact) dp(8) else dp(14), 0, 0, 0)
             },
             LinearLayout.LayoutParams(0, if (compact) dp(36) else dp(56), 1f),
         )
@@ -384,11 +385,11 @@ class DiPlayActivity : ComponentActivity() {
         val wide = resources.configuration.screenWidthDp >= 850
         val body = column()
         val left = column()
-        left.addView(label(getString(R.string.your_phone_your_drive), 12, ACCENT, true).apply { letterSpacing = .16f })
-        left.addView(label(getString(R.string.a_familiar_drive), if (wide) 42 else 36, TEXT, true).apply { setPadding(0, dp(12), 0, dp(10)) })
+        left.addView(label(getString(R.string.your_phone_your_drive).uppercase(), 12, MUTED, true).apply { letterSpacing = .24f })
+        left.addView(label(getString(R.string.a_familiar_drive), if (wide) 56 else 44, TEXT, true).apply { setPadding(0, dp(16), 0, dp(14)) })
         left.addView(label(getString(R.string.your_maps_music_and_conversations_carplay_right_here_on_yo), 19, MUTED))
         val card = card()
-        card.addView(label(getString(R.string.wireless_carplay), 12, ACCENT, true).apply { letterSpacing = .12f })
+        card.addView(label(getString(R.string.wireless_carplay).uppercase(), 12, MUTED, true).apply { letterSpacing = .24f })
         status = label(getString(R.string.ready_when_you_are), 24, TEXT, true).apply { setPadding(0, dp(10), 0, dp(16)) }
         card.addView(status)
         connectButton = button(getString(R.string.connect_phone), true) {
@@ -435,7 +436,7 @@ class DiPlayActivity : ComponentActivity() {
         right.addView(label(getString(R.string.plug_your_iphone_into_a_usb_data_port_allow_carplay_when_y), 14, MUTED).apply { gravity = Gravity.CENTER; setPadding(dp(8), dp(10), dp(8), dp(24)) })
         right.addView(button(getString(R.string.settings), false) { page = "settings"; render() }, matchButton())
         right.addView(label(getString(R.string.make_diplay_feel_right_for_your_car), 14, MUTED).apply { gravity = Gravity.CENTER; setPadding(0, dp(10), 0, dp(24)) })
-        right.addView(label("${getString(R.string.home_public_preview)}${version()}", 12, MUTED).apply { letterSpacing = .08f })
+        right.addView(label("${getString(R.string.home_public_preview)}${version()}".uppercase(), 11, MUTED).apply { letterSpacing = .2f })
         if (wide) {
             // Both rows share column widths. The USB button starts at the wireless
             // card's top edge, independently of hero wrapping or font scaling.
@@ -524,7 +525,7 @@ class DiPlayActivity : ComponentActivity() {
                     matchButton(8, 54),
                 )
             } else {
-                card.addView(label(getString(R.string.usb_auto_confirm_active_hint), 14, Color.rgb(127, 205, 154)).apply {
+                card.addView(label(getString(R.string.usb_auto_confirm_active_hint), 14, SUCCESS).apply {
                     setPadding(0, dp(4), 0, dp(8))
                 })
             }
@@ -936,7 +937,7 @@ class DiPlayActivity : ComponentActivity() {
             if (!allReady) {
                 card.addView(button(getString(R.string.btn_auto_apply_permissions), false) { autoApplyPermissions() }, matchButton(8, 54))
             } else {
-                card.addView(label(getString(R.string.btn_permissions_ready), 14, Color.rgb(127, 205, 154)).apply {
+                card.addView(label(getString(R.string.btn_permissions_ready), 14, SUCCESS).apply {
                     setPadding(0, dp(6), 0, dp(4))
                 })
             }
@@ -2360,9 +2361,9 @@ class DiPlayActivity : ComponentActivity() {
         val dialog = Dialog(this).apply { requestWindowFeature(Window.FEATURE_NO_TITLE) }
         val panel = column().apply {
             setPadding(dp(16), dp(8), dp(16), dp(8))
-            setBackgroundColor(Color.rgb(35, 39, 45))
+            setBackgroundColor(BG)
         }
-        panel.addView(label(getString(R.string.cluster_safe_area_edit), 18, Color.WHITE, true))
+        panel.addView(label(getString(R.string.cluster_safe_area_edit), 18, TEXT, true))
         panel.addView(label(getString(R.string.cluster_safe_area_live_hint), 14, MUTED))
         panel.addView(ClusterSafeAreaPreviewFrame(this, editor), LinearLayout.LayoutParams(-1, 0, 1f))
         val actions = row()
@@ -3019,7 +3020,7 @@ class DiPlayActivity : ComponentActivity() {
         target.isSelected = selected
         target.setTextColor(if (selected) BG else TEXT)
         target.background = android.graphics.drawable.RippleDrawable(
-            ColorStateList.valueOf(0x336F9FD9),
+            ColorStateList.valueOf(RIPPLE),
             rounded(if (selected) ACCENT else SURFACE, if (selected) ACCENT else BORDER),
             null
         )
@@ -3076,10 +3077,10 @@ class DiPlayActivity : ComponentActivity() {
         val card = card()
         val heading = row().apply { gravity = Gravity.CENTER_VERTICAL; setPadding(0, 0, 0, dp(16)) }
         if (icon != null) heading.addView(ImageView(this).apply {
-            setImageResource(icon); imageTintList = ColorStateList.valueOf(ACCENT)
+            setImageResource(icon); imageTintList = ColorStateList.valueOf(TEXT)
             importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
         }, LinearLayout.LayoutParams(dp(28), dp(28)).apply { marginEnd = dp(12) })
-        heading.addView(label(title, 22, TEXT, true), LinearLayout.LayoutParams(0, -2, 1f))
+        heading.addView(label(title.uppercase(), 15, TEXT, true).apply { letterSpacing = .16f }, LinearLayout.LayoutParams(0, -2, 1f))
         card.addView(heading)
         build(card)
         parent.addView(card, LinearLayout.LayoutParams(-1, -2).apply { bottomMargin = dp(18) })
@@ -3115,22 +3116,28 @@ class DiPlayActivity : ComponentActivity() {
         }
         parent.addView(button, matchButton(0, 60)); parent.addView(space(12))
     }
-    private fun card() = column().apply { background = rounded(SURFACE, BORDER); setPadding(dp(24), dp(24), dp(24), dp(24)) }
+    private fun card() = column().apply { background = rounded(SURFACE, HAIRLINE); setPadding(dp(28), dp(28), dp(28), dp(28)) }
     private fun column() = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; layoutParams = LinearLayout.LayoutParams(-1, -2) }
     private fun row() = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; layoutParams = LinearLayout.LayoutParams(-1, -2) }
     private fun label(value: String, size: Int, color: Int, bold: Boolean = false) = TextView(this).apply {
         text = value; textSize = size.toFloat(); setTextColor(color); gravity = Gravity.CENTER_VERTICAL
-        typeface = if (bold) Typeface.create("sans-serif-medium", Typeface.NORMAL) else Typeface.create("sans-serif", Typeface.NORMAL)
+        // Large headings go light and tight; small bold labels become tracked capitals.
+        typeface = when {
+            size >= 30 -> Typeface.create("sans-serif-light", Typeface.NORMAL)
+            bold -> Typeface.create("sans-serif-medium", Typeface.NORMAL)
+            else -> Typeface.create("sans-serif", Typeface.NORMAL)
+        }
+        if (size >= 30) letterSpacing = -.02f
         setLineSpacing(dp(3).toFloat(), 1f)
     }
     private fun button(title: String, primary: Boolean, click: () -> Unit) = Button(this).apply {
-        text = title; isAllCaps = false; textSize = 18f; setTextColor(if (primary) BG else TEXT)
+        text = title; isAllCaps = true; textSize = 14f; letterSpacing = .14f; setTextColor(if (primary) BG else TEXT)
         typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
-        background = android.graphics.drawable.RippleDrawable(ColorStateList.valueOf(0x336F9FD9), rounded(if (primary) ACCENT else BUTTON, if (primary) ACCENT else BORDER), null)
+        background = android.graphics.drawable.RippleDrawable(ColorStateList.valueOf(RIPPLE), rounded(if (primary) ACCENT else BUTTON, if (primary) ACCENT else BORDER), null)
         setPadding(dp(16), 0, dp(16), 0); minHeight = dp(56); stateListAnimator = null
         setOnClickListener { click() }
     }
-    private fun rounded(color: Int, stroke: Int) = GradientDrawable().apply { setColor(color); cornerRadius = dp(20).toFloat(); setStroke(dp(1), stroke) }
+    private fun rounded(color: Int, stroke: Int) = GradientDrawable().apply { setColor(color); cornerRadius = 0f; setStroke(dp(1), stroke) }
     private fun matchButton(top: Int = 0, height: Int = 68) = LinearLayout.LayoutParams(-1, dp(height)).apply { topMargin = dp(top) }
     private fun space(height: Int) = View(this).apply { layoutParams = LinearLayout.LayoutParams(1, dp(height)) }
     // Rounded, not truncated: below 160 dpi dp(1) became 0 and every border vanished.
@@ -3139,14 +3146,18 @@ class DiPlayActivity : ComponentActivity() {
         private const val BYD_VEHICLE_TAG = "DiPlay-BYD13"
         private const val VEHICLE_VALIDATION_RETRY_MILLIS = 500L
         private const val ADB_KEY_SAVE_WAIT_MILLIS = 500L
-        private val BG = Color.rgb(12, 17, 27)
-        private val SURFACE = Color.rgb(21, 30, 44)
-        // One step lighter than a card, so a button reads as a button even where its 1 px border is faint.
-        private val BUTTON = Color.rgb(31, 43, 61)
-        private val BORDER = Color.rgb(42, 56, 75)
-        private val ACCENT = Color.rgb(166, 200, 255)
-        private val TEXT = Color.rgb(241, 245, 252)
-        private val MUTED = Color.rgb(168, 182, 202)
-        private val WARNING = Color.rgb(255, 196, 128)
+        // Monochrome: white paper, black ink, hairlines and square corners.
+        private val BG = Color.rgb(255, 255, 255)
+        private val SURFACE = Color.rgb(255, 255, 255)
+        private val BUTTON = Color.rgb(255, 255, 255)
+        private val BORDER = Color.rgb(0, 0, 0)
+        // Card outlines stay quieter than button outlines so controls still read as controls.
+        private val HAIRLINE = Color.rgb(222, 222, 222)
+        private val ACCENT = Color.rgb(0, 0, 0)
+        private val TEXT = Color.rgb(0, 0, 0)
+        private val MUTED = Color.rgb(110, 110, 110)
+        private val WARNING = Color.rgb(176, 58, 0)
+        private val SUCCESS = Color.rgb(30, 110, 60)
+        private const val RIPPLE = 0x1F000000
     }
 }
