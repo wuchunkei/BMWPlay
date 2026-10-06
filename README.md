@@ -5,7 +5,7 @@
 <h1 align="center">B M W P L A Y</h1>
 
 <p align="center">
-  CARPLAY RECEIVER · BMW X5 F15 · ANDROID
+  CARPLAY RECEIVER · BMW · ANDROID
 </p>
 
 <p align="center">
@@ -16,13 +16,13 @@
 
 ## English
 
-BMWPlay turns an Android phone or tablet into a wired and wireless CarPlay receiver for the BMW X5 (F15). It has a clean black-and-white interface that follows the car's day/night mode.
+BMWPlay turns an Android phone or tablet into a wired and wireless CarPlay receiver for BMW vehicles. It has a clean black-and-white interface that follows the car's day/night mode.
 
 ### Features
 
 | | |
 |---|---|
-| **Identity** | The iPhone sees the receiver as **BMW X5**. Manufacturer, model and OEM label default to BMW / X5 / BMW. |
+| **Identity** | Works with any BMW model. The iPhone sees the receiver as **BMW**; manufacturer, model and OEM label default to BMW and can be changed in the CarPlay menu. |
 | **BYD features** | HUD, instrument cluster, wheel keys, vehicle data and car-hotspot setup are disabled via `BydOutputSettings.BYD_FEATURES_ENABLED`. |
 | **App** | Name `BMWPlay`, application ID `com.bmwplay.app`. |
 | **Design** | Monochrome interface with square corners and hairline borders: white by day, black at night. It follows **Settings → CarPlay day/night mode**: *Always day* and *Always night* are fixed; *Follow Android system* and *Automatic (ambient light)* follow the car's day/night mode. The CarPlay connecting screen stays black. |
@@ -56,13 +56,13 @@ Requires JDK 25 (as in CI) and the Android SDK. The output is `mobile/build/outp
 
 ## 繁體中文
 
-BMWPlay 讓 Android 手機或平板變成 BMW X5（F15）用的有線／無線 CarPlay 接收器。介面是簡潔的黑白設計，會跟車子的日夜模式切換。
+BMWPlay 讓 Android 手機或平板變成 BMW 車款用的有線／無線 CarPlay 接收器，適用所有 BMW 車型。介面是簡潔的黑白設計，會跟車子的日夜模式切換。
 
 ### 功能
 
 | | |
 |---|---|
-| **車輛身份** | iPhone 會把接收器識別為 **BMW X5**，預設製造商／型號／OEM 標籤為 BMW / X5 / BMW。 |
+| **車輛身份** | 適用所有 BMW 車型。iPhone 會把接收器識別為 **BMW**；製造商／型號／OEM 標籤預設都是 BMW，可以在 CarPlay 選單裡修改。 |
 | **BYD 功能** | 抬頭顯示、儀表板、方向盤按鍵、車輛數據和車載熱點設定，都經由 `BydOutputSettings.BYD_FEATURES_ENABLED` 關閉。 |
 | **App** | 名稱 `BMWPlay`，套件 ID `com.bmwplay.app`。 |
 | **設計** | 黑白單色介面，直角、細線框：白天白底黑字，夜間黑底白字。跟隨**設定 → CarPlay 日夜模式**：「固定日间」、「固定夜间」不會變；「跟隨 Android 系統」和「自動（環境光）」會跟車子的日夜模式切換。CarPlay 連線畫面維持黑色。 |
@@ -99,4 +99,4 @@ BMWPlay is distributed under **GPL-3.0**. These credits are required by the upst
 
 Full notices are in [docs/THIRD_PARTY_NOTICES.md](docs/THIRD_PARTY_NOTICES.md) and [docs/licenses](docs/licenses).
 
-BMWPlay is not affiliated with or endorsed by BMW, Apple or BYD. CarPlay is a trademark of Apple Inc.; BMW and X5 are trademarks of BMW AG.
+BMWPlay is not affiliated with or endorsed by BMW, Apple or BYD. CarPlay is a trademark of Apple Inc.; BMW is a trademark of BMW AG.

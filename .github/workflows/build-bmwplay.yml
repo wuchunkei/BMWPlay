@@ -24,8 +24,30 @@ jobs:
         with:
           packages: platform-tools platforms;android-37.0 build-tools;36.0.0 ndk;28.2.13676358
       - uses: gradle/actions/setup-gradle@v4
-      - name: Build source-only APK
-        run: ./gradlew :mobile:assembleDebug --stacktrace
+      # MFI_IDENTITY_PK8_B64 / MFI_CERTIFICATE_P7B_B64: base64 of offline-mfi/identity.pk8 and
+      # certificate.p7b. With both set the APK can authenticate with an iPhone; without them
+      # the build is source-only. DEBUG_KEYSTORE_B64 (optional) keeps the signature stable
+      # so new builds install over old ones.
+      - name: Build APK
+        env:
+          MFI_IDENTITY_PK8_B64: ${{ secrets.MFI_IDENTITY_PK8_B64 }}
+          MFI_CERTIFICATE_P7B_B64: ${{ secrets.MFI_CERTIFICATE_P7B_B64 }}
+          DEBUG_KEYSTORE_B64: ${{ secrets.DEBUG_KEYSTORE_B64 }}
+        run: |
+          if [ -n "$DEBUG_KEYSTORE_B64" ]; then
+            mkdir -p ~/.android
+            echo "$DEBUG_KEYSTORE_B64" | base64 -d > ~/.android/debug.keystore
+          fi
+          if [ -n "$MFI_IDENTITY_PK8_B64" ] && [ -n "$MFI_CERTIFICATE_P7B_B64" ]; then
+            AUTH="$RUNNER_TEMP/auth"
+            mkdir -p "$AUTH/offline-mfi"
+            echo "$MFI_IDENTITY_PK8_B64" | base64 -d > "$AUTH/offline-mfi/identity.pk8"
+            echo "$MFI_CERTIFICATE_P7B_B64" | base64 -d > "$AUTH/offline-mfi/certificate.p7b"
+            DIPLAY_AUTH_ASSETS_DIR="$AUTH" ./gradlew :mobile:assembleStandaloneDebug --stacktrace
+          else
+            echo "::warning::No MFI secrets set; building a source-only APK that cannot authenticate with an iPhone."
+            ./gradlew :mobile:assembleDebug --stacktrace
+          fi
       - name: Rename APK
         run: |
           mkdir -p dist

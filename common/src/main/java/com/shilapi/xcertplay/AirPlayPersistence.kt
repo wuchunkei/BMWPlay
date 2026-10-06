@@ -97,7 +97,7 @@ object AirPlayPersistence {
     private const val CUSTOM_ICON_FILE = "airplay-icon.png"
 
     const val DEFAULT_MANUFACTURER = "BMW"
-    const val DEFAULT_MODEL = "X5"
+    const val DEFAULT_MODEL = "BMW"
     const val DEFAULT_OEM_LABEL = "BMW"
     const val DEFAULT_MFI_I2C_PATH = "/dev/i2c-1"
 
