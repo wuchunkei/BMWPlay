@@ -165,6 +165,9 @@ class DiPlayActivity : ComponentActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        uiNight = wantsNightUi()
+        setTheme(if (uiNight) R.style.Theme_BMWPlay_Dark else R.style.Theme_BMWPlay_Light)
+        applyPalette(uiNight)
         super.onCreate(savedInstanceState)
         languagePreferenceAtCreate = AppLocale.preference(this)
         com.shilapi.xcertplay.hud.BydNavigationOutputs.onAppOpened(applicationContext)
@@ -205,7 +208,25 @@ class DiPlayActivity : ComponentActivity() {
         outState.putBoolean("byd_vehicle_advanced", bydVehicleAdvancedExpanded)
         super.onSaveInstanceState(outState)
     }
-    override fun onConfigurationChanged(newConfig: Configuration) { super.onConfigurationChanged(newConfig); render() }
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        if (!syncDayNight()) render()
+    }
+
+    // The app follows the same day/night choice as CarPlay. System and light-sensor modes
+    // follow the car's night mode (usually the headlights); Day and Night are fixed.
+    private var uiNight = false
+    private fun wantsNightUi(): Boolean = when (AirPlayPersistence.loadCarPlayNightMode(this)) {
+        CarPlayNightMode.DAY -> false
+        CarPlayNightMode.NIGHT -> true
+        else -> (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+    }
+    /** Recreates with the other palette and theme when day/night changed; true if it did. */
+    private fun syncDayNight(): Boolean {
+        if (wantsNightUi() == uiNight) return false
+        recreate()
+        return true
+    }
     private fun openOverlayPermission() {
         val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName"))
         if (runCatching { startActivity(intent) }.isFailure) {
@@ -232,6 +253,7 @@ class DiPlayActivity : ComponentActivity() {
             recreate()
             return
         }
+        if (syncDayNight()) return
         handler.removeCallbacks(tick); handler.post(tick)
         // Back from the car settings: refresh the car hotspot reminder on the home page.
         if (!initialLaunch && !adbSwitchChangePending && !pausedForAdbSwitchChange &&
@@ -547,6 +569,7 @@ class DiPlayActivity : ComponentActivity() {
                 reconnects = false,
             ) { index ->
                 AirPlayPersistence.saveCarPlayNightMode(this, nightModes[index])
+                syncDayNight()
             }
             card.addView(label(getString(R.string.carplay_night_hint), 14, MUTED))
             card.addView(label(getString(R.string.carplay_night_time_note), 14, MUTED).apply {
@@ -3146,18 +3169,35 @@ class DiPlayActivity : ComponentActivity() {
         private const val BYD_VEHICLE_TAG = "DiPlay-BYD13"
         private const val VEHICLE_VALIDATION_RETRY_MILLIS = 500L
         private const val ADB_KEY_SAVE_WAIT_MILLIS = 500L
-        // Monochrome: white paper, black ink, hairlines and square corners.
-        private val BG = Color.rgb(255, 255, 255)
-        private val SURFACE = Color.rgb(255, 255, 255)
-        private val BUTTON = Color.rgb(255, 255, 255)
-        private val BORDER = Color.rgb(0, 0, 0)
+        // Monochrome: paper and ink, hairlines and square corners. Day is white paper,
+        // night inverts to black paper. Set by applyPalette before anything is built.
+        private var BG = Color.WHITE
+        private var SURFACE = Color.WHITE
+        private var BUTTON = Color.WHITE
+        private var BORDER = Color.BLACK
         // Card outlines stay quieter than button outlines so controls still read as controls.
-        private val HAIRLINE = Color.rgb(222, 222, 222)
-        private val ACCENT = Color.rgb(0, 0, 0)
-        private val TEXT = Color.rgb(0, 0, 0)
-        private val MUTED = Color.rgb(110, 110, 110)
-        private val WARNING = Color.rgb(176, 58, 0)
-        private val SUCCESS = Color.rgb(30, 110, 60)
-        private const val RIPPLE = 0x1F000000
+        private var HAIRLINE = Color.rgb(222, 222, 222)
+        private var ACCENT = Color.BLACK
+        private var TEXT = Color.BLACK
+        private var MUTED = Color.rgb(110, 110, 110)
+        private var WARNING = Color.rgb(176, 58, 0)
+        private var SUCCESS = Color.rgb(30, 110, 60)
+        private var RIPPLE = 0x1F000000
+
+        private fun applyPalette(night: Boolean) {
+            if (night) {
+                BG = Color.BLACK; SURFACE = Color.BLACK; BUTTON = Color.BLACK
+                BORDER = Color.rgb(235, 235, 235); HAIRLINE = Color.rgb(48, 48, 48)
+                ACCENT = Color.rgb(235, 235, 235); TEXT = Color.rgb(235, 235, 235)
+                MUTED = Color.rgb(140, 140, 140); WARNING = Color.rgb(255, 179, 122)
+                SUCCESS = Color.rgb(127, 205, 154); RIPPLE = 0x33FFFFFF
+            } else {
+                BG = Color.WHITE; SURFACE = Color.WHITE; BUTTON = Color.WHITE
+                BORDER = Color.BLACK; HAIRLINE = Color.rgb(222, 222, 222)
+                ACCENT = Color.BLACK; TEXT = Color.BLACK
+                MUTED = Color.rgb(110, 110, 110); WARNING = Color.rgb(176, 58, 0)
+                SUCCESS = Color.rgb(30, 110, 60); RIPPLE = 0x1F000000
+            }
+        }
     }
 }
