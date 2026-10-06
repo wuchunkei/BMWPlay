@@ -16,22 +16,22 @@
 
 ## English
 
-BMWPlay turns an Android phone or tablet into a wired and wireless CarPlay receiver for the BMW X5 (F15). It is a personal fork of [DiPlay](https://github.com/shihabal3amri/DiPlay) 0.2.12, with the BYD-specific features turned off and a clean black-and-white interface.
+BMWPlay turns an Android phone or tablet into a wired and wireless CarPlay receiver for the BMW X5 (F15). It has a clean black-and-white interface that follows the car's day/night mode.
 
-### What's different from DiPlay
+### Features
 
 | | |
 |---|---|
 | **Identity** | The iPhone sees the receiver as **BMW X5**. Manufacturer, model and OEM label default to BMW / X5 / BMW. |
 | **BYD features** | HUD, instrument cluster, wheel keys, vehicle data and car-hotspot setup are disabled via `BydOutputSettings.BYD_FEATURES_ENABLED`. |
-| **App** | Name `BMWPlay`, application ID `com.bmwplay.app`. It installs alongside DiPlay. |
+| **App** | Name `BMWPlay`, application ID `com.bmwplay.app`. |
 | **Design** | Monochrome interface with square corners and hairline borders: white by day, black at night. It follows **Settings → CarPlay day/night mode**: *Always day* and *Always night* are fixed; *Follow Android system* and *Automatic (ambient light)* follow the car's day/night mode. The CarPlay connecting screen stays black. |
 
 ### Download
 
-Every push builds an APK with GitHub Actions:
+Download the APK from **[Releases](https://github.com/wuchunkei/BMWPlay/releases/latest)**.
 
-**Actions → Build BMWPlay APK → latest run → Artifacts → `BMWPlay-0.2.12`**
+Every push also builds an APK with GitHub Actions (**Actions → Build BMWPlay APK → Artifacts**).
 
 Install it on the **Android receiver**, not on the iPhone.
 
@@ -49,33 +49,29 @@ Requires JDK 25 (as in CI) and the Android SDK. The output is `mobile/build/outp
 
 ### Documentation
 
-- [Install and connect](docs/INSTALL.md)
-- [Compatibility and troubleshooting](docs/COMPATIBILITY.md)
-- [Privacy and diagnostic reports](docs/PRIVACY.md)
 - [Build from source](docs/BUILD.md)
-- [Original DiPlay README](docs/DIPLAY-README.md)
-- [Release notes](CHANGELOG.md)
+- [Privacy and diagnostic reports](docs/PRIVACY.md)
 
 ---
 
 ## 繁體中文
 
-BMWPlay 讓 Android 手機或平板變成 BMW X5（F15）用的有線／無線 CarPlay 接收器。這是 [DiPlay](https://github.com/shihabal3amri/DiPlay) 0.2.12 的個人分支，關閉了所有 BYD 專屬功能，並改成簡潔的黑白介面。
+BMWPlay 讓 Android 手機或平板變成 BMW X5（F15）用的有線／無線 CarPlay 接收器。介面是簡潔的黑白設計，會跟車子的日夜模式切換。
 
-### 與 DiPlay 的差異
+### 功能
 
 | | |
 |---|---|
 | **車輛身份** | iPhone 會把接收器識別為 **BMW X5**，預設製造商／型號／OEM 標籤為 BMW / X5 / BMW。 |
 | **BYD 功能** | 抬頭顯示、儀表板、方向盤按鍵、車輛數據和車載熱點設定，都經由 `BydOutputSettings.BYD_FEATURES_ENABLED` 關閉。 |
-| **App** | 名稱 `BMWPlay`，套件 ID `com.bmwplay.app`，可以和 DiPlay 同時安裝。 |
+| **App** | 名稱 `BMWPlay`，套件 ID `com.bmwplay.app`。 |
 | **設計** | 黑白單色介面，直角、細線框：白天白底黑字，夜間黑底白字。跟隨**設定 → CarPlay 日夜模式**：「固定日间」、「固定夜间」不會變；「跟隨 Android 系統」和「自動（環境光）」會跟車子的日夜模式切換。CarPlay 連線畫面維持黑色。 |
 
 ### 下載
 
-每次 push 都會由 GitHub Actions 自動編譯 APK：
+到 **[Releases](https://github.com/wuchunkei/BMWPlay/releases/latest)** 下載 APK。
 
-**Actions → Build BMWPlay APK → 最新一次執行 → Artifacts → `BMWPlay-0.2.12`**
+每次 push 也會由 GitHub Actions 自動編譯（**Actions → Build BMWPlay APK → Artifacts**）。
 
 請安裝在 **Android 接收端**，不是 iPhone。
 
@@ -95,7 +91,7 @@ BMWPlay 讓 Android 手機或平板變成 BMW X5（F15）用的有線／無線 C
 
 ## License and credits
 
-BMWPlay is distributed under **GPL-3.0**, the same as its upstream.
+BMWPlay is distributed under **GPL-3.0**. These credits are required by the upstream licenses:
 
 - [DiPlay](https://github.com/shihabal3amri/DiPlay) by shihabal3amri, GPL-3.0
 - [xcertplay](https://github.com/shilapi/xcertplay) by shilapi, GPL-3.0
